@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.renfobackend.auth.dtos.AuthenticatedUserDto;
 import com.renfobackend.auth.dtos.LoginDto;
-import com.renfobackend.auth.dtos.UserDto;
 import com.renfobackend.auth.entities.User;
 import com.renfobackend.auth.services.UserService;
 
@@ -12,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
+@RequestMapping("/users")
 public class UserController {
 
 	@Autowired
@@ -25,7 +26,7 @@ public class UserController {
 	}
 
 	@PostMapping("/register")
-	public ResponseEntity<User> register(@RequestBody UserDto userDto) {
-		return ResponseEntity.ok(userService.register(userDto));
+	public ResponseEntity<User> register(@RequestBody LoginDto loginDto) {
+		return ResponseEntity.ok(userService.register(loginDto));
 	}
 }

@@ -29,6 +29,13 @@ public class GatewayApplication {
 				})
 				.uri("lb://SCHOOL")
 			)
+			.route("auth", r -> r
+				.path("/auth/**")
+				.filters(f -> {
+					return f.stripPrefix(1);
+				})
+				.uri("lb://AUTH")
+			)
 			.build();
 	}
 

@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import com.renfobackend.auth.dtos.AuthenticatedUserDto;
 import com.renfobackend.auth.dtos.LoginDto;
-import com.renfobackend.auth.dtos.UserDto;
 import com.renfobackend.auth.entities.User;
 import com.renfobackend.auth.repositories.UserRepository;
 
@@ -33,16 +32,16 @@ public class UserService {
 		return new AuthenticatedUserDto(user.getId(), user.getUsername(), generateToken(user));
 	}
 
-	public User register(UserDto userDto) {
+	public User register(LoginDto loginDto) {
 		User user = new User();
-		user.setUsername(userDto.getUsername());
-		user.setPasswordHash(hashPassword(userDto.getPasswordHash()));
+		user.setUsername(loginDto.getUsername());
+		user.setPasswordHash(hashPassword(loginDto.getPassword()));
 		return userRepository.save(user);
 	}
 
 	private String generateToken(User user) {
 		return Jwts.builder()
-				.subject(user.getUsername())
+				.setSubject(user.getUsername())
 				.signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
 				.compact();
 	}
